@@ -1,3 +1,6 @@
+\c pe-puppetdb
+TRUNCATE reports CASCADE;
+
 CREATE USER "pe-inventory" PASSWORD '123';
 GRANT "pe-inventory" TO postgres;
 CREATE DATABASE "pe-inventory" OWNER "pe-inventory"
