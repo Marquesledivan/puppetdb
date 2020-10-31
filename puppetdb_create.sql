@@ -1,6 +1,8 @@
 https://puppet.com/docs/puppet/6.17/ssl_regenerate_certificates.html
 
+/opt/puppetlabs/server/data/packages/public/2019.8.1
 
+https://puppet.master.com.br:8140/packages/2019.8.1
 
 \c pe-puppetdb
 TRUNCATE reports CASCADE;
