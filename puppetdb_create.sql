@@ -4,6 +4,21 @@ https://puppet.com/docs/puppet/6.17/ssl_regenerate_certificates.html
 
 https://puppet.master.com.br:8140/packages/2019.8.1
 
+[puppet_enterprise]
+name=Puppet, Inc. PE Packages $releasever - $basearch
+baseurl=https://puppet.master.com.br:8140/packages/2019.8.1/puppet_enterprise
+enabled=True
+gpgcheck=1
+gpgkey=https://puppet.master.com.br:8140/packages/GPG-KEY-puppet
+	https://puppet.master.com.br:8140/packages/GPG-KEY-puppet-2025-04-06
+proxy=_none_
+sslcacert=/etc/puppetlabs/puppet/ssl/certs/ca.pem
+sslclientcert=/etc/puppetlabs/puppet/ssl/certs/db.ledivan.com.br.pem
+sslclientkey=/etc/puppetlabs/puppet/ssl/private_keys/db.ledivan.com.br.pem
+
+
+
+
 \c pe-puppetdb
 TRUNCATE reports CASCADE;
 
