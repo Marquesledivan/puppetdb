@@ -1,3 +1,7 @@
+https://puppet.com/docs/puppet/6.17/ssl_regenerate_certificates.html
+
+
+
 \c pe-puppetdb
 TRUNCATE reports CASCADE;
 
