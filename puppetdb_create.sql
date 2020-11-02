@@ -16,7 +16,9 @@ sslcacert=/etc/puppetlabs/puppet/ssl/certs/ca.pem
 sslclientcert=/etc/puppetlabs/puppet/ssl/certs/db.ledivan.com.br.pem
 sslclientkey=/etc/puppetlabs/puppet/ssl/private_keys/db.ledivan.com.br.pem
 
+curl -k https://puppet.master.com.br:8140/packages/current/install.bash | sudo bash -s main:dns_alt_names=puppet.master.com.br,p.ledivan.com.br,master.ledivan.com.br,ledivan.com.br,puppet.ledivan.com.br,puppet.master.com.br
 
+dns_alt_names = master.ledivan.com.br,ledivan.com.br,puppet.ledivan.com.br,puppet.master.com.br
 
 
 \c pe-puppetdb
