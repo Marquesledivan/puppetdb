@@ -1,5 +1,31 @@
 inventory_database_password
 
+                                          Lista de roles
+     Nome da role      |                         Atributos                         |   Membro de
+-----------------------+-----------------------------------------------------------+---------------
+ pe-activity           | Super-usuário                                             | {}
+ pe-activity-read      |                                                           | {}
+ pe-activity-write     |                                                           | {}
+ pe-classifier         | Super-usuário                                             | {}
+ pe-classifier-read    |                                                           | {}
+ pe-classifier-write   |                                                           | {}
+ pe-ha-replication     | Super-usuário                                             | {}
+ pe-inventory          | Super-usuário                                             | {}
+ pe-inventory-read     |                                                           | {}
+ pe-inventory-write    |                                                           | {}
+ pe-orchestrator       | Super-usuário                                             | {}
+ pe-orchestrator-read  |                                                           | {}
+ pe-orchestrator-write |                                                           | {}
+ pe-postgres           | Super-usuário, Cria role, Cria BD, Replicação, Ignora RLS | {}
+ pe-puppetdb           |                                                           | {}
+ pe-puppetdb-migrator  |                                                           | {pe-puppetdb}
+ pe-rbac               | Super-usuário                                             | {}
+ pe-rbac-read          |                                                           | {}
+ pe-rbac-write         |                                                           | {}
+ 
+ 
+
+
 [main]
 server = puppet-master.ledivan.com.br
 certname = db.ledivan.com.br
