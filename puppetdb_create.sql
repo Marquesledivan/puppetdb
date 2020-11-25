@@ -1,5 +1,23 @@
 inventory_database_password
 
+[main]
+server = puppet-master.ledivan.com.br
+certname = db.ledivan.com.br
+dns_alt_names = database.ledivan.com.br,db.ledivan.com.br
+# This file can be used to override the default puppet settings.
+# See the following links for more details on what settings are available:
+# - https://puppet.com/docs/puppet/latest/config_important_settings.html
+# - https://puppet.com/docs/puppet/latest/config_about_settings.html
+# - https://puppet.com/docs/puppet/latest/config_file_main.html
+# - https://puppet.com/docs/puppet/latest/configuration.html
+user = pe-puppet
+group = pe-puppet
+
+[agent]
+graph = true
+server_list = puppet-master.ledivan.com.br:8140
+
+
 
 https://puppet.com/docs/puppet/6.17/ssl_regenerate_certificates.html
 
