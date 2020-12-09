@@ -4,8 +4,14 @@ exec { 'touch /root/ledivan.txt':
   unless  => 'test -f /etc/r.conf',
 }
 
+$lunch = [ 'franks', 'beans', 'mustard' ]
 
-
+$lunch.each |$lunch| {
+File { "/tmp/$lunch.yaml":
+  ensure => file,
+  source => "/etc/hosts",
+ }
+}
                                           Lista de roles
      Nome da role      |                         Atributos                         |   Membro de
 -----------------------+-----------------------------------------------------------+---------------
