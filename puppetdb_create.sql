@@ -1,4 +1,10 @@
-inventory_database_password
+exec { 'touch /root/ledivan.txt':
+  path     => '/usr/bin:/usr/sbin:/bin',
+  provider => shell,
+  unless  => 'test -f /etc/r.conf',
+}
+
+
 
                                           Lista de roles
      Nome da role      |                         Atributos                         |   Membro de
