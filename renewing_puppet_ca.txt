@@ -1,0 +1,93 @@
+
+#### https://gist.github.com/kbarber/6456420 
+Renew Puppet CA cert.
+
+Not the perfect idea, but should alleviate the need to resign every cert.
+
+What you need from existing puppet ssl directory:
+ca/ca_crt.pem
+ca/ca_key.pem
+
+Create an openssl.cnf:
+[ca]
+  default_ca     = CA_default            # The default ca section
+ 
+[CA_default]
+  database       = ./index.txt           # index file.
+  new_certs_dir  = ./newcerts            # new certs dir 
+
+  certificate    = ./ca/ca_crt.pem
+  serial         = ./serial
+  default_md     = sha1                  # md to use 
+  policy         = CA_policy             # default policy
+  email_in_dn    = no                    # Don't add the email
+  name_opt       = ca_default            # SubjectName display option
+  cert_opt       = ca_default            # Certificate display option
+  x509_extensions = CA_extensions
+
+[CA_policy]
+  countryName            = optional
+  stateOrProvinceName    = optional
+  organizationName       = optional
+  organizationalUnitName = optional
+  commonName             = supplied
+  emailAddress           = optional 
+
+[CA_extensions]
+  nsComment            = "Puppet Cert: manual."
+  basicConstraints     = CA:TRUE
+  subjectKeyIdentifier = hash
+  keyUsage             = keyCertSign, cRLSign
+
+Create an empty index.txt file, and a new serial number 00
+mkdir newcerts
+touch index.txt
+echo 00 > serial
+
+
+
+Converting existing certificate to a CSR and resign certificate: 
+openssl x509 -x509toreq -in certs/ca.pem -signkey ca/ca_key.pem -out certreq.csr
+openssl ca -in certreq.csr -keyfile ca/ca_key.pem -days 3650 -out newcert.pem -config ./openssl.cnf 
+
+Verify new cert vs. old cert:
+openssl x509 -text -noout -in certs/ca.pem
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: CN=Puppet CA: pe-master
+        Validity
+            Not Before: Apr  4 09:21:26 2011 GMT
+            Not After : Apr  2 09:21:26 2016 GMT
+        Subject: CN=Puppet CA: pe-master
+
+openssl x509 -text -noout -in newcert.pem
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: CN=Puppet CA: pe-master
+        Validity
+            Not Before: May 22 19:08:44 2011 GMT
+            Not After : May 19 19:08:44 2021 GMT
+        Subject: CN=Puppet CA: pe-master
+
+Make sure the new CA certificate validates existing certificate:
+# openssl verify -CAfile ./certs/ca.pem ca/signed/pe-agent.pem  
+certs/foo.pem: OK
+# openssl verify -CAfile ./newcert.pem ca/signed/pe-agent.pem
+certs/foo.pem: OK
+
+Replace existing ca cert with new cert.
+cd /etc/puppetlabs/puppet/ssl
+cp ca/ca_crt.pem{,.bak}
+cp newcert.pem ca/ca_crt.pem
+
+Remove CA.pem cert on agent, and it should fetch new ca certificate:
+rm /etc/puppetlabs/puppet/ssl/certs/ca.pem
+puppet agent -t --noop
+info: Caching certificate for ca
+...
