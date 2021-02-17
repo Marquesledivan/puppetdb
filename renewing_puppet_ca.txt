@@ -4,6 +4,10 @@ Renew Puppet CA cert.
 
 Not the perfect idea, but should alleviate the need to resign every cert.
 
+BKP:
+
+cp -r /etc/puppetlabs/puppet/ssl  /etc/puppetlabs/puppet/ssl-17-02-2020
+
 What you need from existing puppet ssl directory:
 ca/ca_crt.pem
 ca/ca_key.pem
